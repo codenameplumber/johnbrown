@@ -155,7 +155,7 @@
     });
   });
   document.getElementById('admSide').innerHTML = `
-    <a class="adm-brand" href="index.html"><img src="../assets/logo/jb-mark.svg" alt=""><span><b>JOHN BROWN</b><small>ADMIN</small></span></a>
+    <a class="adm-brand" href="index.html"><img src="../assets/logo/jj-mark.svg" alt=""><span><b>JJ BOWEN</b><small>ADMIN</small></span></a>
     <nav class="adm-nav" aria-label="Admin">
       ${nav.map((n) => typeof n === 'string' ? `<span class="group">${n}</span>` : `<a href="${n[0]}" data-nav="${n[3]}"${n[3] === page ? ' class="active" aria-current="page"' : ''}><i class="ti ${n[2]}" aria-hidden="true"></i>${n[1]}</a>`).join('')}
     </nav>

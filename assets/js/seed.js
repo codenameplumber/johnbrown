@@ -4,15 +4,15 @@
 (function () {
   const JB = (window.JB = window.JB || {});
 
-  JB.SEED_VERSION = 2;
+  JB.SEED_VERSION = 5;
 
   // Phase-1 admin login. Change it after first sign-in (Admin > Profile & settings).
-  JB.SEED_ADMIN = { name: 'John Brown', email: 'admin@johnbrown.test', password: 'JBstudio#2026' };
+  JB.SEED_ADMIN = { name: 'JJ Bowen', email: 'admin@jjbowen.test', password: 'JBstudio#2026' };
 
   JB.PLACEHOLDER_WA = '15555550100';   // fictional 555 number until the owner sets the real one
 
   JB.SEED_SETTINGS = {
-    businessName: 'John Brown Art & Design',
+    businessName: 'JJ Bowen Art & Design',
     tagline: 'Custom prints, apparel branding and menswear',
     whatsapp: JB.PLACEHOLDER_WA,
     phone: '',
@@ -21,6 +21,7 @@
     pickupAddress: '',
     hours: 'Mon–Sat, 10am–7pm',
     instagram: '',
+    website: 'jjbowenartanddesign.com',
     currency: '$',
     deliveryFee: 8.95,          // flat shipping
     freeShippingOver: 150,      // 0 turns free shipping off
@@ -112,7 +113,7 @@
 
   const A = (id, name, category, file) => ({ id, name, category, src: 'assets/art/' + file, active: true, sample: true });
   JB.SEED_ART = [
-    A('a-jb', 'JB mark', 'Brand', 'jb-mark.svg'),
+    A('a-jj', 'JJ mark', 'Brand', 'jj-mark.svg'),
     A('a-crown', 'Crown', 'Icons', 'crown.svg'),
     A('a-star', 'Star', 'Icons', 'star.svg'),
     A('a-bolt', 'Lightning', 'Icons', 'bolt.svg'),
@@ -177,7 +178,7 @@
       else status = pick(['new', 'new', 'confirmed', 'paid', 'in_production']);
       const paid = ['paid', 'in_production', 'ready', 'delivered'].includes(status);
       orders.push({
-        ref: 'JB-' + (ref++), createdAt: created.toISOString(), sample: true,
+        ref: 'JJ-' + (ref++), createdAt: created.toISOString(), sample: true,
         customer: { name: pick(names) + ' (sample)', phone: '(555) 010-0100', email: '' },
         fulfilment, address: fulfilment === 'delivery' ? '123 Main St, ' + pick(places) : '', notes: '',
         items, printTotal, shopTotal, discount, fee, taxRate, tax, total: r2(sub + fee + tax),

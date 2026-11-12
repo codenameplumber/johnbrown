@@ -1,4 +1,4 @@
-# John Brown Art & Design: website (phase 1)
+# JJ Bowen Art & Design: website (phase 1)
 
 A responsive HTML/CSS/JS site for a **US-based** clothing art, branding and menswear business. Prices are in US dollars, print sizes in inches, and checkout takes a US shipping address.
 
@@ -44,7 +44,7 @@ assets/
             ui.js (header/footer/toasts)  garments.js (garment drawings + print areas)
             design-render.js (mockups + print files)  studio.js  cart.js  home.js
   js/admin/ common.js (shell, guard, DataTable)  orders.js (both order pages)  products.js  pricing.js  sales.js
-  logo/     jb-mark.svg, jb-logo-light.svg (dark backgrounds), jb-logo-ink.svg (light backgrounds)
+  logo/     jj-mark.svg (JJ seal), jj-logo-light.svg (dark backgrounds), jj-logo-ink.svg (light backgrounds)
   art/      starter studio art (original single-color SVGs)
   img/      free Unsplash photos (US settings), see CREDITS.md
 ```
@@ -62,5 +62,5 @@ Swap the bodies of the functions in `assets/js/store.js` for `fetch()` calls to 
 
 - Prices are in US dollars. The sample prices are placeholders, not market research, so the owner should set his own.
 - Sales tax is a single rate set in admin. Rules differ by state (and by what is sold), so the owner should confirm the right rate with his accountant.
-- The reference mockups said "JOHN BOWEN". The brand used everywhere here is **John Brown**.
+- The brand is **JJ Bowen** Art & Design with a **JJ** monogram, at **jjbowenartanddesign.com**. The project folder is still named `JohnBrown`; only the folder name differs.
 - Libraries load from CDNs with pinned versions: Fabric.js 5.3.1 (studio), Tabler Icons 3.19.0, and Google Fonts.

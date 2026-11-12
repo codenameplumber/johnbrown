@@ -14,8 +14,8 @@
 <header class="site-header">
   <div class="wrap bar">
     <a class="brand" href="index.html" aria-label="${esc(S.businessName)} home">
-      <img src="assets/logo/jb-mark.svg" alt="" width="44" height="44">
-      <span class="brand-words"><span class="brand-name">JOHN BROWN</span><span class="brand-sub">ART &amp; DESIGN</span></span>
+      <img src="assets/logo/jj-mark.svg?v=2" alt="" width="44" height="44">
+      <span class="brand-words"><span class="brand-name">JJ BOWEN</span><span class="brand-sub">ART &amp; DESIGN</span></span>
     </a>
     <nav class="nav" id="site-nav" aria-label="Main">
       ${links.map(([href, label, key]) => `<a href="${href}"${key === page ? ' class="active" aria-current="page"' : ''}>${label}</a>`).join('')}
@@ -43,7 +43,7 @@
   <div class="wrap">
     <div class="footer-grid">
       <div>
-        <img class="footer-logo" src="assets/logo/jb-logo-light.svg?v=2" alt="${esc(S.businessName)}">
+        <img class="footer-logo" src="assets/logo/jj-logo-light.svg?v=2" alt="${esc(S.businessName)}">
         <p>${esc(S.tagline)}. Design it yourself, see the price, then send the order straight to us on WhatsApp.</p>
       </div>
       <div><h4>Shop</h4><ul>${cats}<li><a href="shop.html">Everything</a></li></ul></div>
@@ -52,7 +52,7 @@
         <li><a href="studio.html?g=hoodie">Custom hoodie</a></li><li><a href="studio.html?g=cap">Custom cap</a></li><li><a href="studio.html?g=tote">Custom tote bag</a></li></ul></div>
       <div><h4>Talk to us</h4><ul>${contact}</ul></div>
     </div>
-    <div class="footer-bottom"><span>© ${new Date().getFullYear()} ${esc(S.businessName)}</span><a href="admin/login.html">Staff login</a></div>
+    <div class="footer-bottom"><span>© ${new Date().getFullYear()} ${esc(S.businessName)}${S.website ? ` · <a href="https://${esc(S.website.replace(/^https?:\/\//, ''))}">${esc(S.website.replace(/^https?:\/\//, ''))}</a>` : ''}</span><a href="admin/login.html">Staff login</a></div>
   </div>
 </footer>`;
   }

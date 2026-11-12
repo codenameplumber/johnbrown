@@ -529,7 +529,7 @@
   $('dlPreview').addEventListener('click', async () => {
     saveCurrent();
     const url = await JB.mockup(state.sides[state.side].json, state.garmentId, state.side, state.colour.hex, 1000);
-    JB.download(url, `john-brown-${state.garmentId}-${state.side}.jpg`);
+    JB.download(url, `jj-bowen-${state.garmentId}-${state.side}.jpg`);
   });
 
   /* ---------- Boot ---------- */

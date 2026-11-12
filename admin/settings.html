@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Profile &amp; settings | John Brown admin</title>
+  <title>Profile &amp; settings | JJ Bowen admin</title>
   <meta name="robots" content="noindex">
-  <link rel="icon" href="../assets/logo/jb-mark.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/logo/jj-mark.svg?v=2" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
-  <link rel="stylesheet" href="../assets/css/site.css?v=3">
-  <link rel="stylesheet" href="../assets/css/admin.css?v=4">
+  <link rel="stylesheet" href="../assets/css/site.css?v=7">
+  <link rel="stylesheet" href="../assets/css/admin.css?v=7">
 </head>
 <body class="admin" data-base="../" data-admin="settings" data-title="Profile & settings">
   <div class="adm">
@@ -49,6 +49,7 @@
             <div class="field"><label for="bPhone">Phone to call <span class="muted">(optional)</span></label><input class="input" id="bPhone" type="tel"></div>
             <div class="field"><label for="bEmail">Email <span class="muted">(optional)</span></label><input class="input" id="bEmail" type="email"></div>
             <div class="field"><label for="bIg">Instagram <span class="muted">(optional)</span></label><input class="input" id="bIg" placeholder="@yourpage"></div>
+            <div class="field"><label for="bWeb">Website</label><input class="input" id="bWeb" placeholder="jjbowenartanddesign.com"></div>
             <div class="field"><label for="bHours">Store hours</label><input class="input" id="bHours" placeholder="Mon–Sat, 10am–7pm"></div>
             <div class="field full"><label for="bAddr">Store address <span class="muted">(optional)</span></label><input class="input" id="bAddr" placeholder="Street, City, State ZIP"></div>
           </div>
@@ -80,9 +81,9 @@
       </main>
     </div>
   </div>
-  <script src="../assets/js/seed.js?v=3"></script>
-  <script src="../assets/js/store.js?v=3"></script>
-  <script src="../assets/js/admin/common.js?v=4"></script>
+  <script src="../assets/js/seed.js?v=7"></script>
+  <script src="../assets/js/store.js?v=7"></script>
+  <script src="../assets/js/admin/common.js?v=7"></script>
   <script>
   (async function () {
     const JB = window.JB, esc = JB.esc;
@@ -115,12 +116,12 @@
     $('delWrap').innerHTML = JB.moneyInput('bDelFee', S.deliveryFee);
     $('freeWrap').innerHTML = JB.moneyInput('bFree', S.freeShippingOver || 0);
     $('bTax').value = S.taxRate === null || S.taxRate === undefined ? '' : S.taxRate;
-    const map = { bName: 'businessName', bTag: 'tagline', bWa: 'whatsapp', bPhone: 'phone', bEmail: 'email', bIg: 'instagram', bHours: 'hours', bAddr: 'address', bPickAddr: 'pickupAddress', bDelNote: 'deliveryNote', bCur: 'currency' };
+    const map = { bName: 'businessName', bTag: 'tagline', bWa: 'whatsapp', bPhone: 'phone', bEmail: 'email', bIg: 'instagram', bWeb: 'website', bHours: 'hours', bAddr: 'address', bPickAddr: 'pickupAddress', bDelNote: 'deliveryNote', bCur: 'currency' };
     Object.entries(map).forEach(([id, k]) => { $(id).value = S[k] || ''; });
     if (JB.isPlaceholderWa(S.whatsapp)) $('bWa').value = '';
     function waPaint() {
       const n = JB.waNumber($('bWa').value);
-      $('waTest').href = n ? JB.waLink('Test message from the John Brown website', n) : '#';
+      $('waTest').href = n ? JB.waLink('Test message from the JJ Bowen website', n) : '#';
       $('waHint').textContent = n ? `Orders will open a WhatsApp chat with +${n}.` : "Customers' orders open a WhatsApp chat with this number. US numbers can be typed without the +1.";
     }
     $('bWa').addEventListener('input', () => { $('waErr').textContent = ''; waPaint(); }); waPaint();
@@ -154,13 +155,13 @@
     $('exportBtn').addEventListener('click', async () => {
       const data = await JB.store.exportAll();
       const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(data)], { type: 'application/json' }));
-      a.download = 'john-brown-backup-' + new Date().toISOString().slice(0, 10) + '.json'; a.click();
+      a.download = 'jj-bowen-backup-' + new Date().toISOString().slice(0, 10) + '.json'; a.click();
     });
     $('importFile').addEventListener('change', async (e) => {
       const f = e.target.files[0]; if (!f) return;
       try {
         const data = JSON.parse(await f.text());
-        if (!data.settings || !data.pricing) throw new Error('That file is not a John Brown backup.');
+        if (!data.settings || !data.pricing) throw new Error('That file is not a JJ Bowen backup.');
         if (!confirm('Replace everything in this browser with the backup from ' + (data.exportedAt ? JB.date(data.exportedAt, true) : 'that file') + '?')) return;
         await JB.store.importAll(data); JB.toast('Backup restored'); setTimeout(() => location.reload(), 700);
       } catch (err) { JB.toast(err.message, { error: true }); }

@@ -185,7 +185,7 @@
   $('incSample').addEventListener('change', render);
   $('csv').addEventListener('click', () => {
     JB.csv([['Paid on', 'Order', 'Customer', 'Phone', 'Printing', 'Shop', 'Shipping', 'Sales tax', 'Total', 'Sample'],
-      ...lastPaid.map((o) => [o.paidAt.slice(0, 10), o.ref, o.customer.name, o.customer.phone, o.printTotal, o.shopTotal, o.fee, o.tax || 0, o.total, o.sample ? 'yes' : 'no'])], 'john-brown-sales.csv');
+      ...lastPaid.map((o) => [o.paidAt.slice(0, 10), o.ref, o.customer.name, o.customer.phone, o.printTotal, o.shopTotal, o.fee, o.tax || 0, o.total, o.sample ? 'yes' : 'no'])], 'jj-bowen-sales.csv');
   });
   render();
 })();

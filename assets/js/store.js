@@ -194,7 +194,7 @@
     createOrder(o) {
       const list = read(K.orders, []);
       const max = list.reduce((m, x) => Math.max(m, parseInt(String(x.ref).replace(/\D/g, ''), 10) || 0), 24000);
-      o.ref = 'JB-' + (max + 1);
+      o.ref = 'JJ-' + (max + 1);
       o.createdAt = new Date().toISOString();
       o.status = 'new'; o.paid = false; o.paidAt = null;
       o.history = [{ at: o.createdAt, status: 'new', note: 'Order sent on WhatsApp' }];

@@ -1,6 +1,6 @@
 # Photo credits
 
-All photos are free-to-use images from [Unsplash](https://unsplash.com) (Unsplash License), chosen to fit a US audience and US settings. They are **placeholders**: they do not show John Brown's own work, shop or customers. Replace them with real photos before launch.
+All photos are free-to-use images from [Unsplash](https://unsplash.com) (Unsplash License), chosen to fit a US audience and US settings. They are **placeholders**: they do not show JJ Bowen's own work, shop or customers. Replace them with real photos before launch.
 
 | File | Photographer | Unsplash photo id |
 |---|---|---|

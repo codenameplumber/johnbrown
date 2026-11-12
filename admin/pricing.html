@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Print prices | John Brown admin</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../assets/logo/jb-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/site.css?v=3">
+  <link rel="stylesheet" href="../assets/css/admin.css?v=4">
+</head>
+<body class="admin" data-base="../" data-admin="pricing" data-title="Print prices">
+  <div class="adm">
+    <aside class="adm-side" id="admSide"></aside>
+    <div class="adm-scrim" id="admScrim"></div>
+    <div class="adm-main">
+      <header class="adm-top" id="admTop"></header>
+      <main class="adm-content">
+        <div class="setup" id="sampleNote"></div>
+        <form id="form" class="stack" novalidate>
+          <section class="card">
+            <div class="card-head"><div><h2>Garments</h2><p>The blank price of each garment before printing, plus the colors and sizes customers can pick in the studio.</p></div></div>
+            <div class="tbl-wrap"><table class="tbl price-table"><thead><tr><th>On</th><th>Garment</th><th style="min-width:140px">Blank price</th><th style="min-width:160px">Sizes</th><th style="min-width:300px">Colors</th></tr></thead><tbody id="garments"></tbody></table></div>
+          </section>
+
+          <div class="row-eq">
+            <section class="card">
+              <div class="card-head"><div><h2>Print size prices</h2><p>Charged per printed side, per piece. The studio picks the size from the longest edge of the design.</p></div></div>
+              <div class="tbl-wrap"><table class="tbl price-table"><thead><tr><th>Name</th><th>Up to (inches)</th><th style="min-width:130px">Price per side</th><th>Note for customers</th></tr></thead><tbody id="tiers"></tbody></table></div>
+            </section>
+            <section class="card">
+              <div class="card-head"><div><h2>Bulk discounts</h2><p>Percentage off the garment and print price when one design is ordered in quantity.</p></div><button class="btn btn-line btn-sm" type="button" id="addBulk"><i class="ti ti-plus" aria-hidden="true"></i> Add level</button></div>
+              <div class="tbl-wrap"><table class="tbl price-table"><thead><tr><th>From (pieces)</th><th>% off</th><th></th></tr></thead><tbody id="bulk"></tbody></table></div>
+              <h3 style="font-size:.95rem;margin:1.2rem 0 .6rem">Extras</h3>
+              <div class="form-grid">
+                <div class="field"><label for="uploadFee">Customer artwork setup fee</label><div id="uploadFeeWrap"></div><span class="hint">One time per design, when they upload their own file.</span></div>
+                <div class="field"><label for="xxlFee">2XL and up: extra per piece</label><div id="xxlFeeWrap"></div></div>
+              </div>
+            </section>
+          </div>
+
+          <section class="card">
+            <div class="card-head"><div><h2>Check a price</h2><p>Try an order to see what the customer will pay with the prices above (before you save).</p></div></div>
+            <div class="form-grid demo-form">
+              <div class="field"><label for="tG">Garment</label><select class="select" id="tG"></select></div>
+              <div class="field"><label for="tF">Front print</label><select class="select" id="tF"></select></div>
+              <div class="field"><label for="tB">Back print</label><select class="select" id="tB"></select></div>
+              <div class="field"><label for="tQ">Pieces</label><input class="input" id="tQ" type="number" min="1" value="20"></div>
+            </div>
+            <div class="calc-demo" id="tOut" aria-live="polite"></div>
+          </section>
+
+          <div class="sticky-save"><button class="btn btn-gold" type="submit"><i class="ti ti-device-floppy" aria-hidden="true"></i> Save prices</button></div>
+        </form>
+      </main>
+    </div>
+  </div>
+  <script src="../assets/js/seed.js?v=3"></script>
+  <script src="../assets/js/store.js?v=3"></script>
+  <script src="../assets/js/admin/common.js?v=4"></script>
+  <script src="../assets/js/admin/pricing.js?v=3"></script>
+</body>
+</html>

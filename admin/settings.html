@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profile &amp; settings | John Brown admin</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../assets/logo/jb-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/site.css?v=3">
+  <link rel="stylesheet" href="../assets/css/admin.css?v=4">
+</head>
+<body class="admin" data-base="../" data-admin="settings" data-title="Profile & settings">
+  <div class="adm">
+    <aside class="adm-side" id="admSide"></aside>
+    <div class="adm-scrim" id="admScrim"></div>
+    <div class="adm-main">
+      <header class="adm-top" id="admTop"></header>
+      <main class="adm-content stack">
+        <div class="row-eq">
+          <form class="card" id="profileForm" novalidate>
+            <div class="card-head"><div><h2>Your profile</h2><p>The name and email you sign in with.</p></div></div>
+            <div class="field"><label for="pName">Name</label><input class="input" id="pName" autocomplete="name"></div>
+            <div class="field"><label for="pEmail">Email</label><input class="input" id="pEmail" type="email" autocomplete="username"></div>
+            <div class="field hidden" id="pCurWrap"><label for="pCur">Current password <span class="muted">(needed to change your email)</span></label><input class="input" id="pCur" type="password" autocomplete="current-password"></div>
+            <div class="err" id="pErr" role="alert"></div>
+            <button class="btn btn-dark" type="submit"><i class="ti ti-device-floppy" aria-hidden="true"></i> Save profile</button>
+          </form>
+          <form class="card" id="passForm" novalidate>
+            <div class="card-head"><div><h2>Change password</h2><p>Use at least 8 characters.</p></div></div>
+            <div class="field"><label for="cur">Current password</label><input class="input" id="cur" type="password" autocomplete="current-password"></div>
+            <div class="field"><label for="nw">New password</label><input class="input" id="nw" type="password" autocomplete="new-password"></div>
+            <div class="field"><label for="nw2">Type the new password again</label><input class="input" id="nw2" type="password" autocomplete="new-password"></div>
+            <div class="err" id="cErr" role="alert"></div>
+            <button class="btn btn-dark" type="submit"><i class="ti ti-lock" aria-hidden="true"></i> Change password</button>
+          </form>
+        </div>
+
+        <form class="card" id="bizForm" novalidate>
+          <div class="card-head" id="business"><div><h2>Business and contact</h2><p>Shown on the website and used for WhatsApp orders.</p></div></div>
+          <div class="form-grid">
+            <div class="field"><label for="bName">Business name</label><input class="input" id="bName"></div>
+            <div class="field"><label for="bTag">Tagline</label><input class="input" id="bTag"></div>
+            <div class="field full"><label for="bWa">WhatsApp number for orders</label>
+              <div style="display:flex;gap:8px"><input class="input" id="bWa" type="tel" inputmode="tel" placeholder="e.g. (212) 555-0123"><a class="btn btn-wa" id="waTest" target="_blank" rel="noopener" href="#"><i class="ti ti-brand-whatsapp" aria-hidden="true"></i> Test</a></div>
+              <span class="hint" id="waHint">Customers' orders open a WhatsApp chat with this number. US numbers can be typed without the +1.</span><span class="err" id="waErr"></span></div>
+            <div class="field"><label for="bPhone">Phone to call <span class="muted">(optional)</span></label><input class="input" id="bPhone" type="tel"></div>
+            <div class="field"><label for="bEmail">Email <span class="muted">(optional)</span></label><input class="input" id="bEmail" type="email"></div>
+            <div class="field"><label for="bIg">Instagram <span class="muted">(optional)</span></label><input class="input" id="bIg" placeholder="@yourpage"></div>
+            <div class="field"><label for="bHours">Store hours</label><input class="input" id="bHours" placeholder="Mon–Sat, 10am–7pm"></div>
+            <div class="field full"><label for="bAddr">Store address <span class="muted">(optional)</span></label><input class="input" id="bAddr" placeholder="Street, City, State ZIP"></div>
+          </div>
+          <h3 style="font-size:.95rem;margin:.6rem 0 .8rem" id="shipping">Shipping, pickup and sales tax</h3>
+          <div class="form-grid">
+            <div class="field"><label for="bDelFee">Flat shipping fee</label><div id="delWrap"></div></div>
+            <div class="field"><label for="bFree">Free shipping on orders over</label><div id="freeWrap"></div><span class="hint">Set to 0 to turn free shipping off.</span></div>
+            <div class="field"><label for="bPickFee">Local pickup fee</label><div id="pickWrap"></div><span class="hint">Set to 0 for free pickup.</span></div>
+            <div class="field"><label for="bTax">Sales tax rate (%)</label><input class="input" id="bTax" type="number" min="0" max="20" step="0.001" inputmode="decimal" placeholder="e.g. 8.875"><span class="hint">Added to the subtotal at checkout. Enter 0 if you don't charge sales tax.</span><span class="err" id="taxErr"></span></div>
+            <div class="field full"><label for="bPickAddr">Pickup address</label><input class="input" id="bPickAddr" placeholder="Where customers collect their orders"></div>
+            <div class="field full"><label for="bDelNote">Shipping note shown at checkout</label><input class="input" id="bDelNote"></div>
+            <div class="field"><label for="bCur">Currency symbol</label><input class="input" id="bCur" maxlength="4" style="width:100px"></div>
+          </div>
+          <h3 style="font-size:.95rem;margin:.6rem 0 .8rem">Shop categories</h3>
+          <div class="colour-chips" id="cats" style="margin-bottom:10px"></div>
+          <div style="display:flex;gap:8px;max-width:420px"><input class="input" id="newCat" placeholder="New category, e.g. Native wear"><button class="btn btn-line" type="button" id="addCat"><i class="ti ti-plus" aria-hidden="true"></i> Add</button></div>
+          <div class="sticky-save"><button class="btn btn-gold" type="submit"><i class="ti ti-device-floppy" aria-hidden="true"></i> Save business settings</button></div>
+        </form>
+
+        <section class="card">
+          <div class="card-head"><div><h2>Data</h2><p>Everything is saved in this browser for now. Download a backup now and then.</p></div></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-line" type="button" id="exportBtn"><i class="ti ti-download" aria-hidden="true"></i> Download backup</button>
+            <label class="btn btn-line" for="importFile"><i class="ti ti-upload" aria-hidden="true"></i> Restore from backup</label><input type="file" id="importFile" accept="application/json,.json" class="sr-only">
+            <button class="btn btn-line" type="button" id="sampleBtn"><i class="ti ti-eraser" aria-hidden="true"></i> Remove sample orders</button>
+            <button class="btn btn-line" type="button" id="resetBtn" style="color:var(--red)"><i class="ti ti-refresh-alert" aria-hidden="true"></i> Reset everything</button>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <script src="../assets/js/seed.js?v=3"></script>
+  <script src="../assets/js/store.js?v=3"></script>
+  <script src="../assets/js/admin/common.js?v=4"></script>
+  <script>
+  (async function () {
+    const JB = window.JB, esc = JB.esc;
+    if (!JB.auth.user()) return;
+    const $ = (id) => document.getElementById(id);
+    const user = JB.auth.user();
+    let S = await JB.store.getSettings();
+
+    /* Profile */
+    $('pName').value = user.name; $('pEmail').value = user.email;
+    $('pEmail').addEventListener('input', () => $('pCurWrap').classList.toggle('hidden', $('pEmail').value.trim().toLowerCase() === user.email.toLowerCase()));
+    $('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault(); $('pErr').textContent = '';
+      if (!$('pName').value.trim()) { $('pErr').textContent = 'Enter your name.'; return; }
+      if (!/^\S+@\S+\.\S+$/.test($('pEmail').value)) { $('pErr').textContent = 'Enter a valid email.'; return; }
+      try { const u = await JB.auth.updateProfile({ name: $('pName').value.trim(), email: $('pEmail').value.trim(), currentPassword: $('pCur').value }); Object.assign(user, u); $('pCur').value = ''; $('pCurWrap').classList.add('hidden'); JB.toast('Profile saved'); }
+      catch (err) { $('pErr').textContent = err.message; }
+    });
+    /* Password */
+    $('passForm').addEventListener('submit', async (e) => {
+      e.preventDefault(); $('cErr').textContent = '';
+      if ($('nw').value !== $('nw2').value) { $('cErr').textContent = 'The two new passwords do not match.'; return; }
+      try { await JB.auth.changePassword($('cur').value, $('nw').value); e.target.reset(); JB.toast('Password changed'); }
+      catch (err) { $('cErr').textContent = err.message; }
+    });
+
+    /* Business */
+    let cats = (S.categories || []).slice();
+    $('pickWrap').innerHTML = JB.moneyInput('bPickFee', S.pickupFee);
+    $('delWrap').innerHTML = JB.moneyInput('bDelFee', S.deliveryFee);
+    $('freeWrap').innerHTML = JB.moneyInput('bFree', S.freeShippingOver || 0);
+    $('bTax').value = S.taxRate === null || S.taxRate === undefined ? '' : S.taxRate;
+    const map = { bName: 'businessName', bTag: 'tagline', bWa: 'whatsapp', bPhone: 'phone', bEmail: 'email', bIg: 'instagram', bHours: 'hours', bAddr: 'address', bPickAddr: 'pickupAddress', bDelNote: 'deliveryNote', bCur: 'currency' };
+    Object.entries(map).forEach(([id, k]) => { $(id).value = S[k] || ''; });
+    if (JB.isPlaceholderWa(S.whatsapp)) $('bWa').value = '';
+    function waPaint() {
+      const n = JB.waNumber($('bWa').value);
+      $('waTest').href = n ? JB.waLink('Test message from the John Brown website', n) : '#';
+      $('waHint').textContent = n ? `Orders will open a WhatsApp chat with +${n}.` : "Customers' orders open a WhatsApp chat with this number. US numbers can be typed without the +1.";
+    }
+    $('bWa').addEventListener('input', () => { $('waErr').textContent = ''; waPaint(); }); waPaint();
+    function paintCats() { $('cats').innerHTML = cats.map((c, i) => `<span class="cchip" style="padding:.3rem .4rem .3rem .7rem">${esc(c)}<button type="button" data-rm="${i}" aria-label="Remove ${esc(c)}">×</button></span>`).join(''); }
+    $('cats').addEventListener('click', (e) => { const b = e.target.closest('[data-rm]'); if (b) { cats.splice(Number(b.dataset.rm), 1); paintCats(); } });
+    $('addCat').addEventListener('click', () => { const v = $('newCat').value.trim(); if (v && !cats.includes(v)) { cats.push(v); paintCats(); } $('newCat').value = ''; });
+    $('newCat').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); $('addCat').click(); } });
+    paintCats();
+    $('bizForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const wa = JB.waNumber($('bWa').value);
+      if (!wa || wa.length < 11 || wa.length > 15) { $('waErr').textContent = 'Enter the full number, e.g. (212) 555-0123.'; $('bWa').focus(); return; }
+      const taxRaw = $('bTax').value.trim();
+      if (taxRaw !== '' && !(Number(taxRaw) >= 0 && Number(taxRaw) <= 20)) { $('taxErr').textContent = 'Enter a rate between 0 and 20.'; $('bTax').focus(); return; }
+      $('taxErr').textContent = '';
+      if (!cats.length) { JB.toast('Keep at least one shop category.', { error: true }); return; }
+      const patch = Object.fromEntries(Object.entries(map).map(([id, k]) => [k, $(id).value.trim()]));
+      patch.whatsapp = wa; patch.currency = patch.currency || '$';
+      patch.pickupFee = Math.max(0, JB.round2($('bPickFee').value));
+      patch.deliveryFee = Math.max(0, JB.round2($('bDelFee').value));
+      patch.freeShippingOver = Math.max(0, JB.round2($('bFree').value));
+      patch.taxRate = taxRaw === '' ? null : Number(taxRaw);
+      patch.categories = cats;
+      S = await JB.store.saveSettings(patch);
+      $('bWa').value = wa; waPaint();
+      JB.setupBanners && document.getElementById('setup') && JB.setupBanners(document.getElementById('setup'));
+      JB.toast('Business settings saved');
+    });
+
+    /* Data */
+    $('exportBtn').addEventListener('click', async () => {
+      const data = await JB.store.exportAll();
+      const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(data)], { type: 'application/json' }));
+      a.download = 'john-brown-backup-' + new Date().toISOString().slice(0, 10) + '.json'; a.click();
+    });
+    $('importFile').addEventListener('change', async (e) => {
+      const f = e.target.files[0]; if (!f) return;
+      try {
+        const data = JSON.parse(await f.text());
+        if (!data.settings || !data.pricing) throw new Error('That file is not a John Brown backup.');
+        if (!confirm('Replace everything in this browser with the backup from ' + (data.exportedAt ? JB.date(data.exportedAt, true) : 'that file') + '?')) return;
+        await JB.store.importAll(data); JB.toast('Backup restored'); setTimeout(() => location.reload(), 700);
+      } catch (err) { JB.toast(err.message, { error: true }); }
+      e.target.value = '';
+    });
+    $('sampleBtn').addEventListener('click', async () => {
+      if (!confirm('Remove all sample orders? Your real orders stay.')) return;
+      await JB.store.clearSampleData(); JB.toast('Sample orders removed');
+    });
+    $('resetBtn').addEventListener('click', async () => {
+      if (!confirm('Reset everything to the starting sample data? Your orders, products, prices and settings in this browser will be lost.')) return;
+      if (!confirm('Last check: this cannot be undone. Reset now?')) return;
+      await JB.store.resetAll(); location.href = 'login.html';
+    });
+    if (location.hash === '#business') setTimeout(() => $('bWa').focus(), 200);
+    if (location.hash === '#shipping') setTimeout(() => { $('shipping').scrollIntoView({ block: 'start' }); $('bTax').focus(); }, 200);
+  })();
+  </script>
+</body>
+</html>

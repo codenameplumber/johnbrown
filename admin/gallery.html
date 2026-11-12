@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Art gallery | John Brown admin</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../assets/logo/jb-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/site.css?v=3">
+  <link rel="stylesheet" href="../assets/css/admin.css?v=4">
+</head>
+<body class="admin" data-base="../" data-admin="gallery" data-title="Art gallery">
+  <div class="adm">
+    <aside class="adm-side" id="admSide"></aside>
+    <div class="adm-scrim" id="admScrim"></div>
+    <div class="adm-main">
+      <header class="adm-top" id="admTop"></header>
+      <main class="adm-content stack">
+        <section class="card">
+          <div class="card-head"><div><h2>Add art</h2><p>Designs you add here appear in the studio's Art tab. Single-color SVG or PNG files work best, because customers can recolor them.</p></div></div>
+          <form id="form" class="form-grid gal-form" novalidate>
+            <div class="field"><label for="aFile">File (SVG, PNG or JPG)</label><input class="input" id="aFile" type="file" accept="image/svg+xml,.svg,image/png,image/jpeg,image/webp"><span class="err"></span></div>
+            <div class="field"><label for="aName">Name</label><input class="input" id="aName" placeholder="e.g. Lion head"><span class="err"></span></div>
+            <div class="field"><label for="aCat">Group</label><input class="input" id="aCat" list="catList" placeholder="e.g. Icons"><datalist id="catList"></datalist></div>
+            <div class="field"><button class="btn btn-gold" type="submit"><i class="ti ti-upload" aria-hidden="true"></i> Add to gallery</button></div>
+          </form>
+        </section>
+        <section class="card">
+          <div class="card-head"><div><h2>Gallery</h2><p id="count"></p></div></div>
+          <div class="art-admin" id="grid"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <script src="../assets/js/seed.js?v=3"></script>
+  <script src="../assets/js/store.js?v=3"></script>
+  <script src="../assets/js/admin/common.js?v=4"></script>
+  <script>
+  (async function () {
+    const JB = window.JB, esc = JB.esc;
+    if (!JB.auth.user()) return;
+    const $ = (id) => document.getElementById(id);
+    let art = await JB.store.listArt({ all: true });
+    function render() {
+      const cats = [...new Set(art.map((a) => a.category).filter(Boolean))];
+      $('catList').innerHTML = cats.map((c) => `<option value="${esc(c)}">`).join('');
+      $('count').textContent = `${art.filter((a) => a.active !== false).length} showing in the studio, ${art.length} in total`;
+      $('grid').innerHTML = art.map((a) => `
+        <article class="art-card${a.active === false ? ' off' : ''}" data-id="${esc(a.id)}">
+          <div class="pic"><img src="${JB.asset(a.src)}" alt=""></div>
+          <div class="meta"><strong>${esc(a.name)}</strong><span class="muted" style="font-size:.8rem">${esc(a.category || 'No group')}</span>
+            <div class="acts"><label class="switch" title="Show in studio"><input type="checkbox" data-active ${a.active !== false ? 'checked' : ''} aria-label="Show ${esc(a.name)} in the studio"></label>
+            <button class="icon-btn" type="button" data-del aria-label="Delete ${esc(a.name)}"><i class="ti ti-trash" aria-hidden="true"></i></button></div>
+          </div>
+        </article>`).join('') || '<div class="empty" style="grid-column:1/-1"><i class="ti ti-palette" aria-hidden="true"></i><h3>No art yet</h3></div>';
+    }
+    $('grid').addEventListener('change', async (e) => {
+      const card = e.target.closest('[data-id]'); if (!card || !e.target.matches('[data-active]')) return;
+      const a = art.find((x) => x.id === card.dataset.id); a.active = e.target.checked;
+      await JB.store.saveArt(a); art = await JB.store.listArt({ all: true }); render();
+    });
+    $('grid').addEventListener('click', async (e) => {
+      const card = e.target.closest('[data-id]'); if (!card || !e.target.closest('[data-del]')) return;
+      const a = art.find((x) => x.id === card.dataset.id);
+      if (!confirm(`Delete "${a.name}" from the gallery?`)) return;
+      await JB.store.deleteArt(a.id); art = await JB.store.listArt({ all: true }); render(); JB.toast('Art deleted');
+    });
+    $('aFile').addEventListener('change', () => { const f = $('aFile').files[0]; if (f && !$('aName').value) $('aName').value = f.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' '); });
+    $('form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const f = $('aFile').files[0];
+      const setErr = (id, m) => { const fl = $(id).closest('.field'); fl.classList.toggle('invalid', !!m); fl.querySelector('.err').textContent = m || ''; };
+      setErr('aFile', ''); setErr('aName', '');
+      if (!f) return setErr('aFile', 'Choose a file.');
+      if (f.size > 4 * 1024 * 1024) return setErr('aFile', 'Keep art files under 4 MB.');
+      if (!$('aName').value.trim()) return setErr('aName', 'Give it a name.');
+      try {
+        const src = await JB.compressImage(f, 1000, f.type === 'image/jpeg' ? 'image/jpeg' : 'image/png', 0.9);
+        await JB.store.saveArt({ name: $('aName').value.trim(), category: $('aCat').value.trim() || 'Other', src, active: true });
+        art = await JB.store.listArt({ all: true }); render();
+        $('form').reset(); JB.toast('Added. It is in the studio now.');
+      } catch (err) { JB.toast(err.message, { error: true, ms: 6000 }); }
+    });
+    render();
+  })();
+  </script>
+</body>
+</html>

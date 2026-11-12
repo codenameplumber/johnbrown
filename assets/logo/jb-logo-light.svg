@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 100" role="img" aria-labelledby="t">
+  <title id="t">John Brown Art &amp; Design</title>
+  <circle cx="50" cy="50" r="49" fill="#12161C"/>
+  <circle cx="50" cy="50" r="45.5" fill="none" stroke="#C9A24A" stroke-width="2.5"/>
+  <circle cx="50" cy="50" r="40" fill="none" stroke="#C9A24A" stroke-width="1.2" stroke-dasharray="3.2 2.4"/>
+  <path fill="#D4A73C" d="M19 44C24 37 40 33.5 55 34.5C66 35 76 33 82 37.5C85.5 40.5 83 45 84 49C85 54 82.5 59 79 62C72 67.5 58 65.5 46 67C35 68.5 24 67.5 19.5 62C16.5 58 18.5 54 17.5 50C17 47.5 17.5 45.5 19 44Z"/>
+  <path d="M80.5 40.5L88 39.2M82 57.5L88.5 59.5M14 52.5L18 52" fill="none" stroke="#D4A73C" stroke-width="1.6" stroke-linecap="round"/>
+  <g fill="#12161C" transform="translate(50 50.5) scale(.78) translate(-49.75 -50.5)">
+    <path d="M34 33H50V36.5H46.5V57Q46.5 68 36.5 68Q30 68 27.5 62.5L31 61Q32.8 64.5 36.5 64.5Q40.5 64.5 40.5 57V36.5H34Z"/>
+    <path fill-rule="evenodd" d="M48 33H61Q70 33 70 41.5Q70 47 65 49Q72 51 72 58.5Q72 68 62 68H48V64.5H51.5V36.5H48ZM57 37V47.5H60.5Q64 47.5 64 42.2Q64 37 60.5 37ZM57 51V64H61Q66 64 66 57.5Q66 51 61 51Z"/>
+  </g>
+  <text x="118" y="54" fill="#C9A24A" textLength="250" lengthAdjust="spacingAndGlyphs" font-family="Cinzel, Georgia, 'Times New Roman', serif" font-size="34" font-weight="700" letter-spacing="3">JOHN BROWN</text>
+  <text x="120" y="80" fill="#E9E4D8" textLength="246" lengthAdjust="spacingAndGlyphs" font-family="Manrope, 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="600" letter-spacing="7.2">ART &amp; DESIGN</text>
+</svg>

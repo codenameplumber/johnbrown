@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Staff login | John Brown Art &amp; Design</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../assets/logo/jb-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/site.css?v=3">
+  <link rel="stylesheet" href="../assets/css/admin.css?v=4">
+</head>
+<body class="admin authed" data-base="../" data-admin="login">
+  <div class="login-wrap">
+    <div class="login-art">
+      <img src="../assets/img/studio-screen.jpg" alt="">
+      <div class="cap"><h2>Welcome back</h2><p>Orders, prices, products and sales, all in one place.</p></div>
+    </div>
+    <div class="login-panel">
+      <form class="login-box" id="form" novalidate>
+        <img class="logo" src="../assets/logo/jb-logo-ink.svg?v=2" alt="John Brown Art &amp; Design">
+        <h1>Staff login</h1>
+        <p>Sign in to manage the shop and design orders.</p>
+        <div class="demo-login" id="demo" hidden></div>
+        <div class="field"><label for="email">Email</label><input class="input" id="email" type="email" autocomplete="username" required></div>
+        <div class="field"><label for="pass">Password</label>
+          <div class="pw"><input class="input" id="pass" type="password" autocomplete="current-password" required><button type="button" id="peek" aria-label="Show password"><i class="ti ti-eye" aria-hidden="true"></i></button></div>
+        </div>
+        <label class="switch" style="margin:4px 0 18px"><input type="checkbox" id="remember"> Keep me signed in on this device</label>
+        <div class="err" id="err" role="alert" style="margin-bottom:10px"></div>
+        <button class="btn btn-dark btn-block" type="submit"><i class="ti ti-login" aria-hidden="true"></i> Sign in</button>
+        <p style="margin-top:18px;font-size:.85rem"><a href="../index.html">← Back to the website</a></p>
+      </form>
+    </div>
+  </div>
+  <script src="../assets/js/seed.js?v=3"></script>
+  <script src="../assets/js/store.js?v=3"></script>
+  <script src="../assets/js/admin/common.js?v=4"></script>
+  <script>
+  (function () {
+    const JB = window.JB;
+    if (JB.auth.user()) { location.replace('index.html'); return; }
+    const $ = (id) => document.getElementById(id);
+    $('peek').addEventListener('click', () => { const p = $('pass'); const show = p.type === 'password'; p.type = show ? 'text' : 'password'; $('peek').innerHTML = `<i class="ti ti-eye${show ? '-off' : ''}" aria-hidden="true"></i>`; $('peek').setAttribute('aria-label', show ? 'Hide password' : 'Show password'); });
+    ['email', 'pass'].forEach((id) => $(id).addEventListener('input', () => { $('err').textContent = ''; }));
+
+    // Demo login: shown only while the starting login is still in use. It disappears once the password is changed.
+    if (JB.auth.isDefault()) {
+      const D = JB.SEED_ADMIN, esc = JB.esc;
+      const box = $('demo');
+      box.hidden = false;
+      box.innerHTML = `
+        <h2><i class="ti ti-key" aria-hidden="true"></i> Demo login</h2>
+        <div class="demo-row"><span>Email</span><code>${esc(D.email)}</code><button type="button" data-copy="${esc(D.email)}" aria-label="Copy email" title="Copy"><i class="ti ti-copy" aria-hidden="true"></i></button></div>
+        <div class="demo-row"><span>Password</span><code>${esc(D.password)}</code><button type="button" data-copy="${esc(D.password)}" aria-label="Copy password" title="Copy"><i class="ti ti-copy" aria-hidden="true"></i></button></div>
+        <button class="btn btn-gold btn-sm btn-block" type="button" id="fillDemo"><i class="ti ti-wand" aria-hidden="true"></i> Fill in for me</button>
+        <p>Change the password in Profile &amp; settings after you sign in. This box then disappears.</p>`;
+      box.addEventListener('click', async (e) => {
+        const c = e.target.closest('[data-copy]');
+        if (c) {
+          try { await navigator.clipboard.writeText(c.dataset.copy); c.innerHTML = '<i class="ti ti-check" aria-hidden="true"></i>'; setTimeout(() => { c.innerHTML = '<i class="ti ti-copy" aria-hidden="true"></i>'; }, 1200); }
+          catch (err) { JB.toast('Copy is blocked here. Use "Fill in for me" instead.', { error: true }); }
+        }
+        if (e.target.closest('#fillDemo')) { $('email').value = D.email; $('pass').value = D.password; $('err').textContent = ''; $('form').querySelector('button[type=submit]').focus(); }
+      });
+    }
+    $('form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!$('email').value.trim() || !$('pass').value) { $('err').textContent = 'Enter your email and password.'; return; }
+      try {
+        await JB.auth.login($('email').value, $('pass').value, $('remember').checked);
+        const next = new URLSearchParams(location.search).get('next');
+        location.replace(next && /^[\w-]+\.html(\?.*)?$/.test(next) ? next : 'index.html');
+      } catch (err) { $('err').textContent = err.message; $('pass').select(); }
+    });
+  })();
+  </script>
+</body>
+</html>

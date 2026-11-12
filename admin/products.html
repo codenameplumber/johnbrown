@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Products | John Brown admin</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../assets/logo/jb-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/site.css?v=3">
+  <link rel="stylesheet" href="../assets/css/admin.css?v=4">
+</head>
+<body class="admin" data-base="../" data-admin="products" data-title="Products">
+  <div class="adm">
+    <aside class="adm-side" id="admSide"></aside>
+    <div class="adm-scrim" id="admScrim"></div>
+    <div class="adm-main">
+      <header class="adm-top" id="admTop"></header>
+      <main class="adm-content">
+        <section class="card">
+          <div class="card-head">
+            <div><h2>Shop products</h2><p>Suits, shirts, caps and everything else you sell ready-made.</p></div>
+            <button class="btn btn-gold" type="button" id="addBtn"><i class="ti ti-plus" aria-hidden="true"></i> Add product</button>
+          </div>
+          <div class="filters">
+            <label class="search"><span class="sr-only">Search products</span><i class="ti ti-search" aria-hidden="true"></i><input class="input" type="search" id="q" placeholder="Search products"></label>
+            <label class="sr-only" for="cat">Category</label><select class="select" id="cat"></select>
+          </div>
+          <div class="dt" id="table"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <dialog class="modal" id="dlg" aria-labelledby="dlgTitle">
+    <form method="dialog" id="pform" novalidate>
+      <div class="modal-head"><h2 id="dlgTitle">Add product</h2><button class="icon-btn" type="button" data-close aria-label="Close"><i class="ti ti-x" aria-hidden="true"></i></button></div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field full"><label for="fName">Product name</label><input class="input" id="fName" required><span class="err"></span></div>
+          <div class="field"><label for="fCat">Category</label><select class="select" id="fCat"></select></div>
+          <div class="field"><label for="fStock">Stock <span class="muted">(leave blank if you don't track it)</span></label><input class="input" id="fStock" type="number" min="0"></div>
+          <div class="field"><label for="fPrice">Price</label><div id="fPriceWrap"></div><span class="err"></span></div>
+          <div class="field"><label for="fOld">Compare-at price <span class="muted">(shows a "Sale" tag)</span></label><div id="fOldWrap"></div></div>
+          <div class="field"><label for="fSizes">Sizes</label><input class="input" id="fSizes" placeholder="e.g. S, M, L, XL or 38R, 40R, 42R"><span class="hint">Separate with commas. Leave blank for one size.</span></div>
+          <div class="field"><label for="fColours">Colors</label><input class="input" id="fColours" placeholder="e.g. Navy, Black"><span class="hint">Separate with commas.</span></div>
+          <div class="field full"><label for="fDesc">Description</label><textarea class="textarea" id="fDesc" style="min-height:80px"></textarea></div>
+          <div class="field full"><span class="label">Photos</span>
+            <div class="img-row" id="imgRow"></div>
+            <input type="file" id="fImgs" accept="image/*" multiple class="sr-only">
+            <span class="hint">The first photo is the main one. Photos are shrunk automatically to keep the site fast.</span><span class="err" id="imgErr"></span>
+          </div>
+          <div class="field"><label class="switch"><input type="checkbox" id="fFeat"> Featured on the home page</label></div>
+          <div class="field"><label class="switch"><input type="checkbox" id="fActive" checked> Show in the shop</label></div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-line" type="button" data-close>Cancel</button>
+        <button class="btn btn-dark" type="submit" id="saveBtn"><i class="ti ti-device-floppy" aria-hidden="true"></i> Save product</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="../assets/js/seed.js?v=3"></script>
+  <script src="../assets/js/store.js?v=3"></script>
+  <script src="../assets/js/admin/common.js?v=4"></script>
+  <script src="../assets/js/admin/products.js?v=3"></script>
+</body>
+</html>

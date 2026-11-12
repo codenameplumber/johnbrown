@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design studio | John Brown Art &amp; Design</title>
+  <meta name="description" content="Design your own T-shirt, polo, hoodie, cap or tote. Add art and text, see the price instantly and order on WhatsApp.">
+  <link rel="icon" href="assets/logo/jb-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;500;600;700;800&family=Anton&family=Bebas+Neue&family=Pacifico&family=Permanent+Marker&family=Playfair+Display:wght@700&family=Montserrat:wght@800&family=Oswald:wght@600&family=Lobster&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="assets/css/site.css?v=3">
+  <link rel="stylesheet" href="assets/css/studio.css?v=4">
+</head>
+<body data-page="studio" data-no-wa>
+  <div id="site-header"></div>
+  <main id="main" class="studio">
+    <div class="wrap">
+      <div class="studio-head">
+        <div>
+          <span class="eyebrow"><i class="ti ti-wand" aria-hidden="true"></i> Design studio</span>
+          <h1 id="studioTitle">Make it yours</h1>
+          <p>Pick a garment, add art and words, arrange them, then add it to your cart.</p>
+        </div>
+        <a class="btn btn-line btn-sm" id="helpWa" target="_blank" rel="noopener" href="#"><i class="ti ti-brand-whatsapp" aria-hidden="true"></i> Need help? Ask us</a>
+      </div>
+
+      <div class="studio-grid">
+        <!-- Tools -->
+        <section class="tools panel" aria-label="Design tools">
+          <div class="tabs" role="tablist">
+            <button class="tab" role="tab" id="t-product" aria-controls="p-product" aria-selected="true"><i class="ti ti-shirt" aria-hidden="true"></i>Product</button>
+            <button class="tab" role="tab" id="t-art" aria-controls="p-art" aria-selected="false" tabindex="-1"><i class="ti ti-palette" aria-hidden="true"></i>Art</button>
+            <button class="tab" role="tab" id="t-text" aria-controls="p-text" aria-selected="false" tabindex="-1"><i class="ti ti-typography" aria-hidden="true"></i>Text</button>
+            <button class="tab" role="tab" id="t-upload" aria-controls="p-upload" aria-selected="false" tabindex="-1"><i class="ti ti-upload" aria-hidden="true"></i>Upload</button>
+          </div>
+
+          <div class="tab-panel" role="tabpanel" id="p-product" aria-labelledby="t-product">
+            <p class="tp-title">Garment</p>
+            <div class="garment-pick" id="garmentPick" role="group" aria-label="Garment"></div>
+            <p class="tp-title">Color <span class="colour-name" id="colourName"></span></p>
+            <div class="swatches" id="colourPick" role="group" aria-label="Garment color"></div>
+          </div>
+
+          <div class="tab-panel" role="tabpanel" id="p-art" aria-labelledby="t-art" hidden>
+            <button type="button" class="own-art" data-upload-art><i class="ti ti-cloud-upload" aria-hidden="true"></i><span><strong>Have your own design?</strong> Upload your art or logo</span><i class="ti ti-chevron-right" aria-hidden="true"></i></button>
+            <div class="chips scroll" id="artCats" role="group" aria-label="Art categories"></div>
+            <div class="art-grid" id="artGrid"></div>
+            <p class="muted" style="font-size:.8rem;margin:12px 0 0">Tap a design to add it. You can change its color after adding it.</p>
+          </div>
+
+          <div class="tab-panel" role="tabpanel" id="p-text" aria-labelledby="t-text" hidden>
+            <div class="field"><label for="textInput">Your text</label><textarea class="textarea" id="textInput" style="min-height:64px" placeholder="Type your words">TEAM JB</textarea></div>
+            <button class="btn btn-dark btn-block" id="addText" type="button" style="margin-bottom:16px"><i class="ti ti-plus" aria-hidden="true"></i> Add text</button>
+            <p class="tp-title">Font</p>
+            <div class="font-list" id="fontList"></div>
+            <p class="tp-title">Style</p>
+            <div class="ctrl-row">
+              <button class="tog" type="button" id="tBold" aria-pressed="false" aria-label="Bold"><i class="ti ti-bold" aria-hidden="true"></i></button>
+              <button class="tog" type="button" id="tItalic" aria-pressed="false" aria-label="Italic"><i class="ti ti-italic" aria-hidden="true"></i></button>
+              <button class="tog" type="button" id="tOutline" aria-pressed="false" aria-label="Outline"><i class="ti ti-letter-case" aria-hidden="true"></i></button>
+              <input type="color" class="cpick" id="tColour" value="#16181B" aria-label="Text color">
+            </div>
+            <label class="tp-title" for="tSpacing">Letter spacing <span id="tSpacingVal">0</span></label>
+            <input class="range" type="range" id="tSpacing" min="-100" max="800" step="20" value="0">
+            <p class="muted" style="font-size:.8rem;margin:10px 0 0">These apply to the selected text, or to the next text you add. Double-click text on the garment to edit the words.</p>
+          </div>
+
+          <div class="tab-panel" role="tabpanel" id="p-upload" aria-labelledby="t-upload" hidden>
+            <label class="drop" id="drop" for="file">
+              <i class="ti ti-cloud-upload" aria-hidden="true"></i>
+              <strong>Upload your artwork or logo</strong>
+              <span>PNG, JPG or SVG, up to 10 MB. A PNG with a see-through background looks best.</span>
+              <span class="btn btn-dark btn-sm" style="margin-top:6px">Choose a file</span>
+            </label>
+            <input type="file" id="file" accept="image/png,image/jpeg,image/webp,image/svg+xml,.svg" class="sr-only">
+            <div class="notice" style="margin-top:14px"><i class="ti ti-info-circle" aria-hidden="true"></i><div id="uploadFeeNote">Using your own artwork adds a one-time setup fee.</div></div>
+          </div>
+        </section>
+
+        <!-- Stage -->
+        <section class="stage-card" aria-label="Your design">
+          <div class="stage-bar">
+            <div class="seg" role="group" aria-label="Side to design">
+              <button type="button" data-side="front" aria-pressed="true">Front <span class="dot" aria-hidden="true"></span></button>
+              <button type="button" data-side="back" aria-pressed="false">Back <span class="dot" aria-hidden="true"></span></button>
+            </div>
+            <div class="stage-actions">
+              <button class="btn btn-gold btn-sm" type="button" data-upload-art title="Upload your own art or logo"><i class="ti ti-upload" aria-hidden="true"></i> Upload your art</button>
+              <button class="icon-btn" type="button" id="undoBtn" aria-label="Undo" title="Undo" disabled><i class="ti ti-arrow-back-up" aria-hidden="true"></i></button>
+              <button class="icon-btn" type="button" id="guideBtn" aria-label="Hide print area" title="Show or hide print area" aria-pressed="true"><i class="ti ti-border-corners" aria-hidden="true"></i></button>
+              <button class="icon-btn" type="button" id="clearBtn" aria-label="Clear this side" title="Clear this side"><i class="ti ti-eraser" aria-hidden="true"></i></button>
+            </div>
+          </div>
+          <div class="objbar" id="objbar" hidden>
+            <span class="ob-label" id="obLabel">Item</span>
+            <input type="color" id="obColour" aria-label="Color" title="Color">
+            <span class="sep"></span>
+            <button class="ob" type="button" data-act="forward" aria-label="Bring forward" title="Bring forward"><i class="ti ti-stack-push" aria-hidden="true"></i></button>
+            <button class="ob" type="button" data-act="backward" aria-label="Send backward" title="Send backward"><i class="ti ti-stack-pop" aria-hidden="true"></i></button>
+            <button class="ob" type="button" data-act="center" aria-label="Center" title="Center in print area"><i class="ti ti-layout-align-center" aria-hidden="true"></i></button>
+            <button class="ob" type="button" data-act="flip" aria-label="Flip" title="Flip"><i class="ti ti-flip-vertical" aria-hidden="true"></i></button>
+            <button class="ob" type="button" data-act="dup" aria-label="Duplicate" title="Duplicate"><i class="ti ti-copy" aria-hidden="true"></i></button>
+            <span class="sep"></span>
+            <button class="ob danger" type="button" data-act="delete" aria-label="Delete" title="Delete"><i class="ti ti-trash" aria-hidden="true"></i></button>
+          </div>
+          <div class="stage" id="stage">
+            <div class="garment" id="garment"></div>
+            <div class="area-guide" id="areaGuide"><span>Print area</span></div>
+            <div class="stage-empty" id="stageEmpty">Add art or text from the tools, or upload your own art</div>
+            <canvas id="designCanvas"></canvas>
+          </div>
+          <p class="stage-hint">Drag to move. Use the corner handles to resize and rotate. Anything outside the dashed box won't print.</p>
+        </section>
+
+        <!-- Summary -->
+        <aside class="summary-panel panel" aria-label="Price and order">
+          <h2 id="sumTitle">Your T-shirt</h2>
+          <p class="sub" id="sumSub"></p>
+          <div class="side-rows" id="sideRows"></div>
+          <p class="tp-title" id="sizeTitle">Sizes and quantity</p>
+          <div class="size-grid" id="sizeGrid"></div>
+          <div class="price-box" id="priceBox" aria-live="polite"></div>
+          <div class="sum-actions">
+            <div class="form-err" id="formErr" role="alert"></div>
+            <button class="btn btn-gold btn-block" id="addBag" type="button"><i class="ti ti-shopping-cart-plus" aria-hidden="true"></i> <span>Add to cart</span></button>
+            <button class="btn btn-line btn-block" id="dlPreview" type="button"><i class="ti ti-photo-down" aria-hidden="true"></i> Download preview</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+  <div id="site-footer"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+  <script src="assets/js/seed.js?v=3"></script>
+  <script src="assets/js/store.js?v=3"></script>
+  <script src="assets/js/garments.js?v=3"></script>
+  <script src="assets/js/design-render.js?v=3"></script>
+  <script src="assets/js/ui.js?v=3"></script>
+  <script src="assets/js/studio.js?v=3"></script>
+</body>
+</html>

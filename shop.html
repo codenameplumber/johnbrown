@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shop | John Brown Art &amp; Design</title>
+  <meta name="description" content="Suits, shirts, polos, caps and beanies from John Brown Art & Design.">
+  <link rel="icon" href="assets/logo/jb-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="assets/css/site.css?v=3">
+  <link rel="stylesheet" href="assets/css/pages.css?v=3">
+</head>
+<body data-page="shop">
+  <div id="site-header"></div>
+  <main id="main">
+    <section class="page-hero">
+      <div class="wrap">
+        <div class="crumbs"><a href="index.html">Home</a> / Shop</div>
+        <h1 class="h-display" id="shopTitle">The collection</h1>
+        <p>Suits, shirts, polos, caps and beanies. Want your own design on it? Use the <a href="studio.html" style="color:var(--gold)">design studio</a>.</p>
+      </div>
+    </section>
+    <section class="section-tight section-grey" style="padding-top:0">
+      <div class="wrap">
+        <div class="shop-tools">
+          <div class="chips scroll" id="catChips" role="group" aria-label="Filter by category"></div>
+          <div class="right">
+            <label class="search"><span class="sr-only">Search products</span><i class="ti ti-search" aria-hidden="true"></i><input class="input" type="search" id="q" placeholder="Search"></label>
+            <label class="sr-only" for="sort">Sort</label>
+            <select class="select" id="sort" style="width:auto">
+              <option value="featured">Featured first</option>
+              <option value="low">Price: low to high</option>
+              <option value="high">Price: high to low</option>
+              <option value="new">Newest</option>
+            </select>
+          </div>
+        </div>
+        <div class="shop-count" id="count" aria-live="polite"></div>
+        <div class="grid grid-4" id="grid"></div>
+        <div class="studio-cta reveal">
+          <div><h3>Want your logo or art on it?</h3><p>Design a T-shirt, polo, hoodie, cap or tote and see the price straight away.</p></div>
+          <a class="btn btn-gold" href="studio.html"><i class="ti ti-wand" aria-hidden="true"></i> Open the design studio</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="assets/js/seed.js?v=3"></script>
+  <script src="assets/js/store.js?v=3"></script>
+  <script src="assets/js/ui.js?v=3"></script>
+  <script>
+  (async function () {
+    const JB = window.JB, esc = JB.esc;
+    const S = await JB.store.getSettings();
+    const all = await JB.store.listProducts();
+    const params = new URLSearchParams(location.search);
+    let cat = params.get('cat') || '';
+    const chips = document.getElementById('catChips');
+    const cats = ['', ...(S.categories || [])];
+    function drawChips() {
+      chips.innerHTML = cats.map((c) => `<button type="button" class="chip" aria-pressed="${c === cat}" data-cat="${esc(c)}">${c ? esc(c) : 'All'}</button>`).join('');
+    }
+    function render() {
+      const q = document.getElementById('q').value.trim().toLowerCase();
+      const sort = document.getElementById('sort').value;
+      let list = all.filter((p) => (!cat || p.category === cat) && (!q || (p.name + ' ' + p.category + ' ' + (p.colours || []).join(' ')).toLowerCase().includes(q)));
+      if (sort === 'low') list.sort((a, b) => a.price - b.price);
+      else if (sort === 'high') list.sort((a, b) => b.price - a.price);
+      else if (sort === 'new') list.sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+      else list.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+      document.getElementById('shopTitle').textContent = cat || 'The collection';
+      document.getElementById('count').textContent = list.length + ' product' + (list.length === 1 ? '' : 's');
+      document.getElementById('grid').innerHTML = list.length ? list.map(JB.productCard).join('')
+        : `<div class="empty" style="grid-column:1/-1"><i class="ti ti-mood-empty" aria-hidden="true"></i><h3>Nothing here yet</h3><p class="muted">Try another category or search word.</p></div>`;
+      JB.reveal();
+    }
+    chips.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-cat]'); if (!b) return;
+      cat = b.dataset.cat; drawChips(); render();
+      const u = new URL(location.href); if (cat) u.searchParams.set('cat', cat); else u.searchParams.delete('cat'); history.replaceState(null, '', u);
+    });
+    document.getElementById('q').addEventListener('input', render);
+    document.getElementById('sort').addEventListener('change', render);
+    drawChips(); render();
+  })();
+  </script>
+</body>
+</html>

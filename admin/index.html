@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard | John Brown admin</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../assets/logo/jb-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="../assets/css/site.css?v=3">
+  <link rel="stylesheet" href="../assets/css/admin.css?v=4">
+</head>
+<body class="admin" data-base="../" data-admin="dashboard" data-title="Dashboard">
+  <div class="adm">
+    <aside class="adm-side" id="admSide"></aside>
+    <div class="adm-scrim" id="admScrim"></div>
+    <div class="adm-main">
+      <header class="adm-top" id="admTop"></header>
+      <main class="adm-content">
+        <div class="setup" id="setup"></div>
+        <div class="tiles" id="tiles"></div>
+        <div class="row2" style="margin-top:18px">
+          <section class="card">
+            <div class="card-head"><div><h2>Latest orders</h2><p>Click an order to open it.</p></div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn btn-line btn-sm" href="print-orders.html"><i class="ti ti-wand" aria-hidden="true"></i> Printing orders</a><a class="btn btn-line btn-sm" href="shop-orders.html"><i class="ti ti-shopping-bag" aria-hidden="true"></i> Shop orders</a></div></div>
+            <div class="dt" id="recent"></div>
+          </section>
+          <div class="stack">
+            <section class="card">
+              <div class="card-head"><div><h2>Work to do</h2><p>Printing and shop orders at each step.</p></div></div>
+              <div id="todo" class="stack" style="gap:8px"></div>
+            </section>
+            <section class="card">
+              <div class="card-head"><h2>Quick actions</h2></div>
+              <div class="stack" style="gap:8px">
+                <a class="btn btn-line btn-block" href="products.html?new=1"><i class="ti ti-plus" aria-hidden="true"></i> Add a product</a>
+                <a class="btn btn-line btn-block" href="pricing.html"><i class="ti ti-tag" aria-hidden="true"></i> Change print prices</a>
+                <a class="btn btn-line btn-block" href="gallery.html"><i class="ti ti-palette" aria-hidden="true"></i> Upload art for the studio</a>
+                <a class="btn btn-line btn-block" href="settings.html#shipping"><i class="ti ti-truck" aria-hidden="true"></i> Shipping, tax and WhatsApp</a>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="../assets/js/seed.js?v=3"></script>
+  <script src="../assets/js/store.js?v=3"></script>
+  <script src="../assets/js/admin/common.js?v=4"></script>
+  <script>
+  (async function () {
+    const JB = window.JB, esc = JB.esc;
+    if (!JB.auth.user()) return;
+    JB.setupBanners(document.getElementById('setup'));
+    const orders = await JB.store.listOrders();
+    const now = new Date();
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const paidThisMonth = orders.filter((o) => o.paid && o.paidAt && new Date(o.paidAt) >= monthStart);
+    const sum = (list, k) => list.reduce((s, o) => s + (o[k] || 0), 0);
+    const newOnes = orders.filter((o) => o.status === 'new');
+    const unpaid = orders.filter((o) => o.status === 'confirmed' && !o.paid);
+    const making = orders.filter((o) => o.status === 'in_production' || o.status === 'paid');
+    const np = newOnes.filter(JB.hasPrint).length, ns = newOnes.filter(JB.hasShop).length;
+    document.getElementById('tiles').innerHTML = `
+      <a class="tile" href="print-orders.html?status=new"><span class="k"><i class="ti ti-wand" aria-hidden="true"></i> New printing orders</span><span class="v">${np}</span><span class="s">Designs waiting for you to review</span></a>
+      <a class="tile" href="shop-orders.html?status=new"><span class="k"><i class="ti ti-shopping-bag" aria-hidden="true"></i> New shop orders</span><span class="v">${ns}</span><span class="s">Clothes waiting for you to confirm</span></a>
+      <a class="tile" href="print-orders.html?status=confirmed"><span class="k"><i class="ti ti-hourglass" aria-hidden="true"></i> Awaiting payment</span><span class="v">${JB.money(sum(unpaid, 'total'))}</span><span class="s">${unpaid.length} confirmed order${unpaid.length === 1 ? '' : 's'}</span></a>
+      <a class="tile" href="sales.html?range=month"><span class="k"><i class="ti ti-cash" aria-hidden="true"></i> Sales this month${paidThisMonth.some((o) => o.sample) ? ' <span class="badge b-sample">incl. samples</span>' : ''}</span><span class="v">${JB.money(sum(paidThisMonth, 'total'))}</span>
+        <span class="s"><i class="key" style="background:var(--s-print)"></i>Printing ${JB.money(sum(paidThisMonth, 'printTotal'))} · <i class="key" style="background:var(--s-shop)"></i>Shop ${JB.money(sum(paidThisMonth, 'shopTotal'))}</span></a>`;
+    JB.DataTable(document.getElementById('recent'), [
+      { key: 'createdAt', label: 'Order', primary: true, render: (o) => `<span class="ref">${esc(o.ref)}</span><span class="sub">${JB.date(o.createdAt)}</span>` },
+      { key: 'customer', label: 'Customer', render: (o) => `${esc(o.customer.name)}<span class="sub">${esc(o.customer.phone)}</span>` },
+      { key: 'kind', label: 'Items', render: (o) => JB.kindBadges(o) },
+      { key: 'total', label: 'Total', cls: 'num', render: (o) => JB.money(o.total) },
+      { key: 'status', label: 'Status', render: (o) => JB.statusBadge(o.status) }
+    ], { paginate: false, onRowClick: (o) => { location.href = JB.orderLink(o); }, empty: '<p class="muted">No orders yet.</p>' }).setRows(orders.slice(0, 8));
+    const todo = [['new', 'Confirm on WhatsApp'], ['confirmed', 'Chase payment'], ['paid', 'Start production'], ['in_production', 'Being made'], ['ready', 'Hand over or ship']];
+    document.getElementById('todo').innerHTML = todo.map(([s, label]) => {
+      const list = orders.filter((o) => o.status === s);
+      return `<div class="banner info todo-row">${JB.statusBadge(s)}<span>${label}</span>
+        <span class="todo-links"><a href="print-orders.html?status=${s}" title="Printing orders"><i class="ti ti-wand" aria-hidden="true"></i> ${list.filter(JB.hasPrint).length}</a><a href="shop-orders.html?status=${s}" title="Shop orders"><i class="ti ti-shopping-bag" aria-hidden="true"></i> ${list.filter(JB.hasShop).length}</a></span></div>`;
+    }).join('');
+  })();
+  </script>
+</body>
+</html>

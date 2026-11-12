@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product | John Brown Art &amp; Design</title>
+  <link rel="icon" href="assets/logo/jb-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="assets/css/site.css?v=3">
+  <link rel="stylesheet" href="assets/css/pages.css?v=3">
+</head>
+<body data-page="shop">
+  <div id="site-header"></div>
+  <main id="main" class="section-tight">
+    <div class="wrap" id="product"></div>
+    <section class="section-tight" id="relatedWrap" hidden>
+      <div class="wrap">
+        <div class="section-head"><div><span class="eyebrow">You may also like</span><h2 class="h-section">More from this category</h2></div></div>
+        <div class="grid grid-4" id="related"></div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="assets/js/seed.js?v=3"></script>
+  <script src="assets/js/store.js?v=3"></script>
+  <script src="assets/js/ui.js?v=3"></script>
+  <script>
+  (async function () {
+    const JB = window.JB, esc = JB.esc;
+    const id = new URLSearchParams(location.search).get('id');
+    const p = id && await JB.store.getProduct(id);
+    const root = document.getElementById('product');
+    if (!p || p.active === false) {
+      root.innerHTML = `<div class="empty"><i class="ti ti-search-off" aria-hidden="true"></i><h3>We couldn't find that product</h3><p class="muted">It may have sold out or been removed.</p><a class="btn btn-dark" href="shop.html">Back to the shop</a></div>`;
+      return;
+    }
+    document.title = p.name + ' | John Brown Art & Design';
+    const out = p.stock !== null && p.stock !== undefined && Number(p.stock) <= 0;
+    const state = { size: p.sizes.length === 1 ? p.sizes[0] : '', colour: p.colours[0] || '', qty: 1, img: 0 };
+    const studioLink = /shirt|tee|polo|cap|hoodie|tote/i.test(p.category + ' ' + p.name);
+    root.innerHTML = `
+      <div class="crumbs" style="color:var(--muted)"><a href="index.html" style="color:var(--muted)">Home</a> / <a href="shop.html?cat=${encodeURIComponent(p.category)}" style="color:var(--muted)">${esc(p.category)}</a> / ${esc(p.name)}</div>
+      <div class="product-grid" style="margin-top:14px">
+        <div>
+          <div class="gallery-main"><img id="mainImg" src="${JB.asset(p.images[0])}" alt="${esc(p.name)}"></div>
+          ${p.images.length > 1 ? `<div class="thumbs">${p.images.map((src, i) => `<button type="button" aria-pressed="${i === 0}" data-i="${i}" aria-label="Photo ${i + 1}"><img src="${JB.asset(src)}" alt=""></button>`).join('')}</div>` : ''}
+        </div>
+        <div class="p-info sticky-info">
+          <span class="eyebrow">${esc(p.category)}</span>
+          <h1>${esc(p.name)}</h1>
+          <div class="p-price">${JB.money(p.price)}${p.oldPrice ? `<s>${JB.money(p.oldPrice)}</s>` : ''}</div>
+          <p class="p-desc">${esc(p.description || '')}</p>
+          ${p.colours.length > 1 ? `<div class="opt"><span class="label">Color: <span id="colourName">${esc(state.colour)}</span></span><div class="chips" id="colours">${p.colours.map((c) => `<button type="button" class="chip" aria-pressed="${c === state.colour}" data-c="${esc(c)}">${esc(c)}</button>`).join('')}</div></div>` : ''}
+          ${p.sizes.length > 1 ? `<div class="opt"><span class="label">Size</span><div class="chips" id="sizes">${p.sizes.map((s) => `<button type="button" class="chip size-btn" aria-pressed="false" data-s="${esc(s)}">${esc(s)}</button>`).join('')}</div><div class="err" id="sizeErr" role="alert"></div></div>` : ''}
+          <div class="buy-row">
+            <div class="qty" aria-label="Quantity"><button type="button" data-q="-1" aria-label="Fewer">−</button><input id="qty" type="number" min="1" value="1" aria-label="Quantity"><button type="button" data-q="1" aria-label="More">+</button></div>
+            <button class="btn btn-gold" id="addBtn" ${out ? 'disabled' : ''}><i class="ti ti-shopping-cart-plus" aria-hidden="true"></i> ${out ? 'Sold out' : 'Add to cart'}</button>
+          </div>
+          <a class="btn btn-wa btn-block" target="_blank" rel="noopener" href="${JB.waLink('Hello, I am interested in the ' + p.name + ' (' + JB.money(p.price) + ').')}"><i class="ti ti-brand-whatsapp" aria-hidden="true"></i> Ask about this on WhatsApp</a>
+          <div class="p-meta">
+            <div><i class="ti ti-truck-delivery" aria-hidden="true"></i> Ships anywhere in the US, or pick it up locally.</div>
+            <div><i class="ti ti-message-check" aria-hidden="true"></i> We confirm your size and availability on WhatsApp.</div>
+            ${studioLink ? '<div><i class="ti ti-wand" aria-hidden="true"></i> <span>Want your own print? <a href="studio.html">Design it in the studio</a>.</span></div>' : ''}
+          </div>
+        </div>
+      </div>`;
+
+    root.addEventListener('click', (e) => {
+      const t = e.target.closest('button'); if (!t) return;
+      if (t.dataset.i !== undefined) { document.getElementById('mainImg').src = JB.asset(p.images[t.dataset.i]); root.querySelectorAll('.thumbs button').forEach((b) => b.setAttribute('aria-pressed', b === t)); }
+      if (t.dataset.c !== undefined) { state.colour = t.dataset.c; document.getElementById('colourName').textContent = state.colour; root.querySelectorAll('#colours .chip').forEach((b) => b.setAttribute('aria-pressed', b === t)); }
+      if (t.dataset.s !== undefined) { state.size = t.dataset.s; root.querySelectorAll('#sizes .chip').forEach((b) => b.setAttribute('aria-pressed', b === t)); document.getElementById('sizeErr').textContent = ''; }
+      if (t.dataset.q !== undefined) { const q = document.getElementById('qty'); q.value = Math.max(1, (parseInt(q.value, 10) || 1) + Number(t.dataset.q)); }
+    });
+    document.getElementById('addBtn').addEventListener('click', () => {
+      if (p.sizes.length > 1 && !state.size) { document.getElementById('sizeErr').textContent = 'Choose a size first.'; document.getElementById('sizes').scrollIntoView({ block: 'center', behavior: 'smooth' }); return; }
+      const qty = Math.max(1, parseInt(document.getElementById('qty').value, 10) || 1);
+      JB.cart.add({ type: 'shop', productId: p.id, name: p.name, image: p.images[0], price: p.price, size: state.size, colour: state.colour, qty, lineTotal: JB.round2(p.price * qty) });
+      JB.toast(p.name + ' added to your cart', { link: { href: 'cart.html', label: 'View cart' } });
+    });
+
+    const related = (await JB.store.listProducts({ category: p.category })).filter((x) => x.id !== p.id).slice(0, 4);
+    if (related.length) { document.getElementById('relatedWrap').hidden = false; document.getElementById('related').innerHTML = related.map(JB.productCard).join(''); JB.reveal(); }
+  })();
+  </script>
+</body>
+</html>

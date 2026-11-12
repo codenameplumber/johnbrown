@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "johnbrown",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "5520", "--directory", "C:/Users/Dell/Desktop/JohnBrown"],
+      "port": 5520
+    }
+  ]
+}
